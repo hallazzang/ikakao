@@ -20,7 +20,7 @@ print(json.dumps(r.to_dict(), indent=2))
 Output:
 ```json
 {
-  "version": "2.6",
+  "version": "2.0",
   "template": {
     "outputs": [
       {
@@ -47,7 +47,7 @@ print(json.dumps(r.to_dict(), indent=2))
 Output:
 ```json
 {
-  "version": "2.6",
+  "version": "2.0",
   "template": {
     "outputs": [
       {

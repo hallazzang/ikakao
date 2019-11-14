@@ -10,7 +10,7 @@ class Response(Serializable):
     __slots__ = ("version", "template", "context", "data")
 
     def __init__(
-        self, *components, version="2.6", quick_replies=None, context=None, data=None
+        self, *components, version="2.0", quick_replies=None, context=None, data=None
     ):
         self.version = version
         if quick_replies and not components:
