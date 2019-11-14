@@ -8,8 +8,8 @@ with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="ikakao",
-    version="0.0.1",
-    description="Kakao i",
+    version="0.0.2",
+    description="Kakao i Open Builder SDK",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author="Hanjun Kim",
