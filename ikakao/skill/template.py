@@ -1,5 +1,5 @@
 from .serializable import Serializable
-from .components import to_component
+from .components import to_component, to_quick_reply
 from .exceptions import StructureError
 
 __all__ = ("Template",)
@@ -13,7 +13,7 @@ class Template(Serializable):
 
     def __init__(self, *components, quick_replies=None):
         self.components = [to_component(x) for x in components]
-        self.quick_replies = quick_replies
+        self.quick_replies = [to_quick_reply(x) for x in quick_replies]
 
     def to_dict(self):
         if not self.components:

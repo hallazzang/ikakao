@@ -11,6 +11,7 @@ __all__ = (
     "ListCard",
     "Carousel",
     "to_component",
+    "to_quick_reply"
 )
 
 
@@ -83,6 +84,34 @@ class Carousel(Component):
     pass
 
 
+class QuickReply(Component):
+    __slots__ = ("label", "action", "message_text", "block_id", "extra")
+
+    def __init__(
+        self, label, message_text, *, action="message", block_id=None, extra=None
+    ):
+        self.label = label
+        self.message_text = message_text
+        self.action = action
+        self.block_id = block_id
+        self.extra = extra
+
+    def to_dict(self):
+        result = {
+            "label": self.label,
+            "action": self.action,
+            "messageText": self.message_text,
+        }
+        if self.action == "block" and not self.block_id:
+            raise StructureError("block_id must be specified when action is 'block'")
+        elif self.block_id:
+            result["blockId"] = self.block_id
+        if self.extra:
+            result["extra"] = self.extra
+
+        return result
+
+
 def to_component(x):
     if isinstance(x, Component):
         return x
@@ -90,3 +119,12 @@ def to_component(x):
         return SimpleText(text=x)
     else:
         raise TypeError(f"cannot convert {x} into Component")
+
+
+def to_quick_reply(x):
+    if isinstance(x, QuickReply):
+        return x
+    elif isinstance(x, str):
+        return QuickReply(x, x)
+    else:
+        raise TypeError(f"cannot convert {x} into QuickReply")
