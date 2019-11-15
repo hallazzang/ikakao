@@ -23,7 +23,7 @@ class Component(Serializable):
 class SimpleText(Component):
     __slots__ = ("text",)
 
-    def __init__(self, *, text):
+    def __init__(self, text):
         self.text = text
 
     def to_dict(self):
@@ -33,7 +33,7 @@ class SimpleText(Component):
 class SimpleImage(Component):
     __slots__ = ("image_url", "alt_text")
 
-    def __init__(self, *, image_url, alt_text):
+    def __init__(self, image_url, alt_text):
         self.image_url = image_url
         self.alt_text = alt_text
 
@@ -46,9 +46,9 @@ class BasicCard(Component):
 
     def __init__(
         self,
-        *,
         title=None,
         description=None,
+        *,
         thumbnail=None,
         profile=None,
         social=None,
