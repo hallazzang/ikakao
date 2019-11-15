@@ -1,6 +1,7 @@
 # ikakao
 
-[![shields-pypi-badge]](https://pypi.org/project/ole-py/)
+[![shields-pypi-badge]](https://pypi.org/project/ikakao/)
+
 [shields-pypi-badge]: https://img.shields.io/pypi/v/ikakao?style=flat-square&color=blue
 
 Kakao i Open Builder SDK (Currently WIP)
