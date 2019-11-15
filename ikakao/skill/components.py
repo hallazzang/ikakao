@@ -10,6 +10,7 @@ __all__ = (
     "CommerceCard",
     "ListCard",
     "Carousel",
+    "QuickReply",
     "to_component",
     "to_quick_reply",
 )
