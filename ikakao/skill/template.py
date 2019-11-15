@@ -1,5 +1,5 @@
 from .serializable import Serializable
-from .components import to_component, to_quick_reply
+from .components import QuickReply, to_component, to_quick_reply
 from .exceptions import StructureError
 
 __all__ = ("Template",)
@@ -14,7 +14,14 @@ class Template(Serializable):
     def __init__(self, *components, quick_replies=None):
         self.components = [to_component(x) for x in components]
         if quick_replies:
-            self.quick_replies = [to_quick_reply(x) for x in quick_replies]
+            if isinstance(quick_replies, (tuple, list)):
+                self.quick_replies = [to_quick_reply(x) for x in quick_replies]
+            elif isinstance(quick_replies, QuickReply):
+                self.quick_replies = [quick_replies]
+            elif isinstance(quick_replies, str):
+                self.quick_replies = [to_quick_reply(quick_replies)]
+            else:
+                raise StructureError(f"cannot assign {quick_replies} to quick_replies")
         else:
             self.quick_replies = None
 
