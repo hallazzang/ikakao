@@ -1,8 +1,18 @@
 # ikakao
 
-Kakao i Open Builder SDK
+Kakao i Open Builder SDK (Currently WIP)
 
-Currently work in progress.
+## Roadmap
+
+### Supported Components
+
+- [x] SimpleText
+- [x] SimpleImage
+- [ ] BasicCard (Partial support)
+- [ ] CommerceCard
+- [ ] ListCard
+- [ ] Carousel (Partial support)
+- [ ] QuickReply (Partial support)
 
 ## Usage Examples
 
