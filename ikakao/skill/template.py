@@ -13,7 +13,10 @@ class Template(Serializable):
 
     def __init__(self, *components, quick_replies=None):
         self.components = [to_component(x) for x in components]
-        self.quick_replies = [to_quick_reply(x) for x in quick_replies]
+        if quick_replies:
+            self.quick_replies = [to_quick_reply(x) for x in quick_replies]
+        else:
+            self.quick_replies = None
 
     def to_dict(self):
         if not self.components:
