@@ -11,7 +11,7 @@ __all__ = (
     "ListCard",
     "Carousel",
     "to_component",
-    "to_quick_reply"
+    "to_quick_reply",
 )
 
 
@@ -69,7 +69,21 @@ class BasicCard(Component):
         self.buttons = buttons
 
     def to_dict(self):
-        pass
+        result = {}
+        if self.title:
+            result["title"] = self.title
+        if self.description:
+            result["description"] = self.description
+        if self.thumbnail:
+            result["thumbnail"] = self.thumbnail.to_dict()
+        if self.profile:
+            result["profile"] = self.profile.to_dict()
+        if self.social:
+            result["social"] = self.social.to_dict()
+        if self.buttons:
+            result["buttons"] = [x.to_dict() for x in self.buttons]
+
+        return {"basicCard": result}
 
 
 class CommerceCard(Component):
@@ -81,7 +95,22 @@ class ListCard(Component):
 
 
 class Carousel(Component):
-    pass
+    __slots__ = ("type", "items", "header")
+
+    def __init__(self, *items, type="basicCard", header=None):
+        self.type = type
+        self.items = items
+        self.header = header
+
+    def to_dict(self):
+        result = {
+            "type": self.type,
+            "items": [x.to_dict()[self.type] for x in self.items],
+        }
+        if self.header:
+            result["header"] = self.header.to_dict()
+
+        return result
 
 
 class QuickReply(Component):
