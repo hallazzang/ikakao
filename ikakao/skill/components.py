@@ -111,7 +111,7 @@ class Carousel(Component):
         if self.header:
             result["header"] = self.header.to_dict()
 
-        return result
+        return {"carousel": result}
 
 
 class QuickReply(Component):
