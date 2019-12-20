@@ -75,7 +75,7 @@ class BasicCard(Component):
                 "'social' field is not supported yet", UnsupportedFieldWarning
             )
         self.social = social
-        self.buttons = buttons
+        self.buttons = [Button.to_button(x) for x in buttons]
 
     def to_dict(self):
         result = {}
