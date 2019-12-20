@@ -173,7 +173,9 @@ class Carousel(Component):
 class Link(Component):
     __slots__ = ("mobile", "ios", "android", "pc", "mac", "win", "web")
 
-    def __init__(self, web=None, pc=None, mobile=None, win=None, mac=None, android=None, ios=None):
+    def __init__(
+        self, web=None, pc=None, mobile=None, win=None, mac=None, android=None, ios=None
+    ):
         # TODO: check if at least one url exists
         # I'll assume that at least `web` url is provided
         self.web = web

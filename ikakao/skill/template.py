@@ -15,7 +15,9 @@ class Template(Serializable):
         self.components = [Component.to_component(x) for x in components]
         if quick_replies:
             if isinstance(quick_replies, (tuple, list)):
-                self.quick_replies = [QuickReply.to_quick_reply(x) for x in quick_replies]
+                self.quick_replies = [
+                    QuickReply.to_quick_reply(x) for x in quick_replies
+                ]
             elif isinstance(quick_replies, QuickReply):
                 self.quick_replies = [quick_replies]
             elif isinstance(quick_replies, str):
