@@ -9,6 +9,7 @@ __all__ = (
     "BasicCard",
     "CommerceCard",
     "ListCard",
+    "ListItem",
     "Carousel",
     "QuickReply",
     "to_component",
