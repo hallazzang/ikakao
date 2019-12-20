@@ -158,7 +158,7 @@ class Carousel(Component):
         # TODO: check if items are empty
         self.type = type
         self.items = items
-        self.header = header
+        self.header = CarouselHeader.to_carousel_header(header)
 
     def to_dict(self):
         result = {
@@ -169,6 +169,35 @@ class Carousel(Component):
             result["header"] = self.header.to_dict()
 
         return {"carousel": result}
+
+
+class CarouselHeader(Component):
+    __slots__ = ("title", "description", "thumbnail")
+
+    def __init__(self, title, description=None, thumbnail=None):
+        self.title = title
+        self.description = description
+        self.thumbnail = thumbnail
+
+    def to_dict(self):
+        result = {
+            "title": self.title,
+        }
+        if self.description:
+            result["description"] = self.description
+        if self.thumbnail:
+            result["thumbnail"] = self.thumbnail.to_dict()
+
+        return result
+
+    @staticmethod
+    def to_carousel_header(x):
+        if isinstance(x, CarouselHeader):
+            return x
+        elif isinstance(x, str):
+            return CarouselHeader(x)
+        else:
+            raise TypeError(f"cannot convert {x} into CarouselHeader")
 
 
 class Button(Component):
