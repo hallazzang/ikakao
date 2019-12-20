@@ -77,7 +77,7 @@ class BasicCard(Component):
                 "'social' field is not supported yet", UnsupportedFieldWarning
             )
         self.social = social
-        self.buttons = [Button.to_button(x) for x in buttons]
+        self.buttons = buttons and [Button.to_button(x) for x in buttons]
 
     def to_dict(self):
         result = {}
@@ -108,7 +108,7 @@ class ListCard(Component):
         # TODO: check if items are empty
         self.header = ListItem.to_list_item(header)
         self.items = [ListItem.to_list_item(x) for x in items]
-        self.buttons = [Button.to_button(x) for x in buttons]
+        self.buttons = buttons and [Button.to_button(x) for x in buttons]
 
     def to_dict(self):
         result = {
@@ -160,7 +160,7 @@ class Carousel(Component):
         # TODO: check if items are empty
         self.type = type
         self.items = items
-        self.header = CarouselHeader.to_carousel_header(header)
+        self.header = header and CarouselHeader.to_carousel_header(header)
 
     def to_dict(self):
         result = {
