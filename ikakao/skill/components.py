@@ -11,6 +11,7 @@ __all__ = (
     "ListCard",
     "ListItem",
     "Carousel",
+    "Button",
     "Link",
     "QuickReply",
 )
@@ -168,6 +169,69 @@ class Carousel(Component):
             result["header"] = self.header.to_dict()
 
         return {"carousel": result}
+
+
+class Button(Component):
+    __slots__ = (
+        "label",
+        "action",
+        "web_link_url",
+        "os_link",
+        "message_text",
+        "phone_number",
+        "block_id",
+        "extra",
+    )
+
+    def __init__(
+        self,
+        label,
+        action="message",
+        message_text=None,
+        web_link_url=None,
+        os_link=None,
+        phone_number=None,
+        block_id=None,
+        extra=None,
+    ):
+        # TODO: check parameters based on `action`
+        self.label = label
+        self.action = action
+        self.message_text = message_text
+        self.web_link_url = web_link_url
+        self.os_link = os_link and Link.to_link(os_link)
+        self.phone_number = phone_number
+        self.block_id = block_id
+        self.extra = extra
+
+    def to_dict(self):
+        result = {
+            "label": self.label,
+            "action": self.action,
+        }
+        if self.message_text:
+            result["messageText"] = self.message_text
+        if self.web_link_url:
+            result["webLinkUrl"] = self.web_link_url
+        if self.os_link:
+            result["osLink"] = self.os_link.to_dict()
+        if self.phone_number:
+            result["phoneNumber"] = self.phone_number
+        if self.block_id:
+            result["blockId"] = self.block_id
+        if self.extra:
+            result["extra"] = self.extra  # TODO: transform extra
+
+        return result
+
+    @staticmethod
+    def to_button(x):
+        if isinstance(x, Button):
+            return x
+        elif isinstance(x, str):
+            return Button(x, action="message", message_text=x)
+        else:
+            raise TypeError(f"cannot convert {x} into Button")
 
 
 class Link(Component):
