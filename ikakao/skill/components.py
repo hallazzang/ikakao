@@ -11,8 +11,10 @@ __all__ = (
     "ListCard",
     "ListItem",
     "Carousel",
+    "Link",
     "QuickReply",
     "to_component",
+    "to_list_item",
     "to_quick_reply",
 )
 
@@ -119,7 +121,7 @@ class ListItem(Component):
         self.title = title
         self.description = description
         self.image_url = image_url
-        self.link = link
+        self.link = link and Link.to_link(link)
 
     def to_dict(self):
         result = {
@@ -130,7 +132,7 @@ class ListItem(Component):
         if self.image_url:
             result["imageUrl"] = self.image_url
         if self.link:
-            result["link"] = self.link
+            result["link"] = self.link.to_dict()
 
         return result
 
@@ -153,6 +155,49 @@ class Carousel(Component):
             result["header"] = self.header.to_dict()
 
         return {"carousel": result}
+
+
+class Link(Component):
+    __slots__ = ("mobile", "ios", "android", "pc", "mac", "win", "web")
+
+    def __init__(self, web=None, pc=None, mobile=None, win=None, mac=None, android=None, ios=None):
+        # TODO: check if at least one url exists
+        # I'll assume that at least `web` url is provided
+        self.web = web
+        self.pc = pc
+        self.mobile = mobile
+        self.win = win
+        self.mac = mac
+        self.android = android
+        self.ios = ios
+
+    def to_dict(self):
+        result = {}
+        if self.web:
+            result["web"] = self.web
+        if self.pc:
+            result["pc"] = self.pc
+        if self.mobile:
+            result["mobile"] = self.mobile
+        if self.win:
+            result["win"] = self.win
+        if self.mac:
+            result["mac"] = self.mac
+        if self.android:
+            result["android"] = self.android
+        if self.ios:
+            result["ios"] = self.ios
+
+        return result
+
+    @staticmethod
+    def to_link(x):
+        if isinstance(x, Link):
+            return x
+        elif isinstance(x, str):
+            return Link(x)
+        else:
+            raise TypeError(f"cannot convert {x} into Link")
 
 
 class QuickReply(Component):
