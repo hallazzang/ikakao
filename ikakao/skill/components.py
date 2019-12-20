@@ -11,6 +11,8 @@ __all__ = (
     "ListCard",
     "ListItem",
     "Carousel",
+    "CarouselHeader",
+    "Thumbnail",
     "Button",
     "Link",
     "QuickReply",
@@ -198,6 +200,30 @@ class CarouselHeader(Component):
             return CarouselHeader(x)
         else:
             raise TypeError(f"cannot convert {x} into CarouselHeader")
+
+
+class Thumbnail(Component):
+    __slots__ = ("image_url", "link", "fixed_ratio", "width", "height")
+
+    def __init__(self, image_url, width, height, link=None, fixed_ratio=None):
+        self.image_url = image_url
+        self.width = int(width)
+        self.height = int(height)
+        self.fixed_ratio = bool(fixed_ratio)
+        self.link = link and Link.to_link(link)
+
+    def to_dict(self):
+        result = {
+            "imageUrl": self.image_url,
+            "width": self.width,
+            "height": self.height,
+        }
+        if self.fixed_ratio:
+            result["fixedRatio"] = self.fixed_ratio
+        if self.link:
+            result["link"] = self.link.to_dict()
+
+        return result
 
 
 class Button(Component):
