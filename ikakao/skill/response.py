@@ -1,6 +1,5 @@
 from .serializable import Serializable
 from .template import Template
-from .components import Component
 from .exceptions import StructureError
 
 __all__ = ("Response",)

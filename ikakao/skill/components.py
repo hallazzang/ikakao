@@ -13,14 +13,18 @@ __all__ = (
     "Carousel",
     "Link",
     "QuickReply",
-    "to_component",
-    "to_list_item",
-    "to_quick_reply",
 )
 
 
 class Component(Serializable):
-    pass
+    @staticmethod
+    def to_component(x):
+        if isinstance(x, Component):
+            return x
+        elif isinstance(x, str):
+            return SimpleText(text=x)
+        else:
+            raise TypeError(f"cannot convert {x} into Component")
 
 
 class SimpleText(Component):
@@ -99,8 +103,8 @@ class ListCard(Component):
 
     def __init__(self, header, *items, buttons=None):
         # TODO: check if items are empty
-        self.header = to_list_item(header)
-        self.items = [to_list_item(x) for x in items]
+        self.header = ListItem.to_list_item(header)
+        self.items = [ListItem.to_list_item(x) for x in items]
         self.buttons = buttons  # TODO: transform buttons
 
     def to_dict(self):
@@ -135,6 +139,15 @@ class ListItem(Component):
             result["link"] = self.link.to_dict()
 
         return result
+
+    @staticmethod
+    def to_list_item(x):
+        if isinstance(x, ListItem):
+            return x
+        elif isinstance(x, str):
+            return ListItem(x)
+        else:
+            raise TypeError(f"cannot convert {x} into ListItem")
 
 
 class Carousel(Component):
@@ -227,29 +240,11 @@ class QuickReply(Component):
 
         return result
 
-
-def to_component(x):
-    if isinstance(x, Component):
-        return x
-    elif isinstance(x, str):
-        return SimpleText(text=x)
-    else:
-        raise TypeError(f"cannot convert {x} into Component")
-
-
-def to_list_item(x, is_header=False):
-    if isinstance(x, ListItem):
-        return x
-    elif isinstance(x, str):
-        return ListItem(x)
-    else:
-        raise TypeError(f"cannot convert {x} into ListItem")
-
-
-def to_quick_reply(x):
-    if isinstance(x, QuickReply):
-        return x
-    elif isinstance(x, str):
-        return QuickReply(x, x)
-    else:
-        raise TypeError(f"cannot convert {x} into QuickReply")
+    @staticmethod
+    def to_quick_reply(x):
+        if isinstance(x, QuickReply):
+            return x
+        elif isinstance(x, str):
+            return QuickReply(x, x)
+        else:
+            raise TypeError(f"cannot convert {x} into QuickReply")
