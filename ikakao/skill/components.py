@@ -92,13 +92,53 @@ class CommerceCard(Component):
 
 
 class ListCard(Component):
-    pass
+    __slots__ = ("header", "items", "buttons")
+
+    def __init__(self, header, *items, buttons=None):
+        # TODO: check if items are empty
+        self.header = to_list_item(header)
+        self.items = [to_list_item(x) for x in items]
+        self.buttons = buttons  # TODO: transform buttons
+
+    def to_dict(self):
+        result = {
+            "header": self.header.to_dict(),
+            "items": [x.to_dict() for x in self.items],
+        }
+        if self.buttons:
+            result["buttons"] = [x.to_dict() for x in self.buttons]
+
+        return {"listCard": result}
+
+
+class ListItem(Component):
+    __slots__ = ("title", "description", "image_url", "link")
+
+    def __init__(self, title, description=None, image_url=None, link=None):
+        self.title = title
+        self.description = description
+        self.image_url = image_url
+        self.link = link
+
+    def to_dict(self):
+        result = {
+            "title": self.title,
+        }
+        if self.description:
+            result["description"] = self.description
+        if self.image_url:
+            result["imageUrl"] = self.image_url
+        if self.link:
+            result["link"] = self.link
+
+        return result
 
 
 class Carousel(Component):
     __slots__ = ("type", "items", "header")
 
     def __init__(self, *items, type="basicCard", header=None):
+        # TODO: check if items are empty
         self.type = type
         self.items = items
         self.header = header
@@ -149,6 +189,15 @@ def to_component(x):
         return SimpleText(text=x)
     else:
         raise TypeError(f"cannot convert {x} into Component")
+
+
+def to_list_item(x, is_header=False):
+    if isinstance(x, ListItem):
+        return x
+    elif isinstance(x, str):
+        return ListItem(x)
+    else:
+        raise TypeError(f"cannot convert {x} into ListItem")
 
 
 def to_quick_reply(x):
