@@ -106,7 +106,7 @@ class ListCard(Component):
         # TODO: check if items are empty
         self.header = ListItem.to_list_item(header)
         self.items = [ListItem.to_list_item(x) for x in items]
-        self.buttons = buttons  # TODO: transform buttons
+        self.buttons = [Button.to_button(x) for x in buttons]
 
     def to_dict(self):
         result = {
