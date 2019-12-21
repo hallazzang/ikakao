@@ -113,6 +113,7 @@ class CommerceCard(Component):
         price,
         thumbnails,
         buttons,
+        *,
         currency="won",
         discount=None,
         discount_rate=None,
