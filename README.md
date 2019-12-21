@@ -12,11 +12,10 @@ Kakao i Open Builder SDK (Currently WIP)
 
 - [x] SimpleText
 - [x] SimpleImage
+- [x] BasicCard
+- [x] CommerceCard
 - [x] ListCard
-- [ ] BasicCard (Partial support)
-- [ ] CommerceCard
-- [ ] Carousel (Partial support)
-- [ ] QuickReply (Partial support)
+- [x] Carousel
 
 ## Usage Examples
 
