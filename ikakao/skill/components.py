@@ -1,7 +1,7 @@
 import warnings
 
 from .serializable import Serializable
-from .exceptions import UnsupportedFieldWarning
+from .exceptions import FieldConstraintWarning, UnsupportedFieldWarning, StructureError
 
 __all__ = (
     "SimpleText",
@@ -69,14 +69,10 @@ class BasicCard(Component):
         self.description = description
         self.thumbnail = thumbnail
         if profile:
-            warnings.warn(
-                "'profile' field is not supported yet", UnsupportedFieldWarning
-            )
+            warnings.warn("profile is not supported yet", UnsupportedFieldWarning)
         self.profile = profile
         if social:
-            warnings.warn(
-                "'social' field is not supported yet", UnsupportedFieldWarning
-            )
+            warnings.warn("social is not supported yet", UnsupportedFieldWarning)
         self.social = social
         self.buttons = buttons and [Button.to_button(x) for x in buttons]
 
@@ -125,29 +121,41 @@ class CommerceCard(Component):
     ):
         # TODO: validate parameters
         self.description = description
-        self.price = int(price)
+        self.price = price
+        if currency != "won":
+            warnings.warn('currency should be "won"', FieldConstraintWarning)
         self.currency = currency
+        if len(thumbnails) != 1:
+            warnings.warn("only one thumbnail can be attached", FieldConstraintWarning)
         self.thumbnails = thumbnails
+        if not (1 <= len(buttons) <= 3):
+            warnings.warn(
+                "number of buttons should be in range 1~3", FieldConstraintWarning
+            )
         self.buttons = [Button.to_button(x) for x in buttons]
-        self.discount = discount and int(discount)
-        self.discount_rate = discount_rate and int(discount_rate)
-        self.discounted_price = discounted_price and int(discounted_price)
+        self.discount = discount
+        self.discount_rate = discount_rate
+        if discount_rate and not discounted_price:
+            raise StructureError(
+                "discounted_price must be specified when discount_rate is specified"
+            )
+        self.discounted_price = discounted_price
         self.profile = profile
 
     def to_dict(self):
         result = {
             "description": self.description,
-            "price": self.price,
+            "price": int(self.price),
             "currency": self.currency,
             "thubmnails": [x.to_dict() for x in self.thumbnails],
             "buttons": [x.to_dict() for x in self.buttons],
         }
         if self.discount is not None:
-            result["discount"] = self.discount
+            result["discount"] = int(self.discount)
         if self.discount_rate is not None:
-            result["discountRate"] = self.discount_rate
+            result["discountRate"] = int(self.discount_rate)
         if self.discounted_price is not None:
-            result["discountedPrice"] = self.discounted_price
+            result["discountedPrice"] = int(self.discounted_price)
         if self.profile:
             result["profile"] = self.profile.to_dict()
 
