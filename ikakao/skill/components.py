@@ -98,7 +98,59 @@ class BasicCard(Component):
 
 
 class CommerceCard(Component):
-    pass
+    __slots__ = (
+        "description",
+        "price",
+        "currency",
+        "discount",
+        "discount_rate",
+        "discounted_price",
+        "thumbnails",
+        "profile",
+        "buttons",
+    )
+
+    def __init__(
+        self,
+        description,
+        price,
+        thumbnails,
+        buttons,
+        currency="won",
+        discount=None,
+        discount_rate=None,
+        discounted_price=None,
+        profile=None,
+    ):
+        # TODO: validate parameters
+        self.description = description
+        self.price = int(price)
+        self.currency = currency
+        self.thumbnails = thumbnails
+        self.buttons = [Button.to_button(x) for x in buttons]
+        self.discount = discount and int(discount)
+        self.discount_rate = discount_rate and int(discount_rate)
+        self.discounted_price = discounted_price and int(discounted_price)
+        self.profile = profile
+
+    def to_dict(self):
+        result = {
+            "description": self.description,
+            "price": self.price,
+            "currency": self.currency,
+            "thubmnails": [x.to_dict() for x in self.thumbnails],
+            "buttons": [x.to_dict() for x in self.buttons],
+        }
+        if self.discount is not None:
+            result["discount"] = self.discount
+        if self.discount_rate is not None:
+            result["discountRate"] = self.discount_rate
+        if self.discounted_price is not None:
+            result["discountedPrice"] = self.discounted_price
+        if self.profile:
+            result["profile"] = self.profile.to_dict()
+
+        return {"commerceCard": result}
 
 
 class ListCard(Component):
