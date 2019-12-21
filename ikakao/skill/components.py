@@ -15,6 +15,7 @@ __all__ = (
     "Thumbnail",
     "Button",
     "Link",
+    "Profile",
     "QuickReply",
 )
 
@@ -384,6 +385,23 @@ class Link(Component):
             return Link(x)
         else:
             raise TypeError(f"cannot convert {x} into Link")
+
+
+class Profile(Component):
+    __slots__ = ("nickname", "image_url")
+
+    def __init__(self, nickname, image_url=None):
+        self.nickname = nickname
+        self.image_url = image_url
+
+    def to_dict(self):
+        result = {
+            "nickname": self.nickname,
+        }
+        if self.image_url:
+            result["imageUrl"] = self.image_url
+
+        return result
 
 
 class QuickReply(Component):
