@@ -8,7 +8,7 @@ with open(os.path.join(here, "README.md"), encoding="utf-8") as f:
 
 setup(
     name="ikakao",
-    version="0.0.9",
+    version="0.1.0",
     description="Kakao i Open Builder SDK",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -18,8 +18,5 @@ setup(
     url="https://github.com/hallazzang/ikakao",
     packages=find_packages(),
     include_package_data=True,
-    classifiers=[
-        "Programming Language :: Python",
-    ],
+    classifiers=["Programming Language :: Python",],
 )
-
