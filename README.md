@@ -4,7 +4,7 @@
 
 [shields-pypi-badge]: https://img.shields.io/pypi/v/ikakao?style=flat-square&color=blue
 
-Kakao i Open Builder SDK (Currently WIP)
+Kakao i Open Builder SDK
 
 ## Roadmap
 
