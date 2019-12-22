@@ -186,7 +186,7 @@ class ListCard(Component):
 class ListItem(Component):
     __slots__ = ("title", "description", "image_url", "link")
 
-    def __init__(self, title, description=None, image_url=None, link=None):
+    def __init__(self, title, description=None, *, image_url=None, link=None):
         self.title = title
         self.description = description
         self.image_url = image_url
@@ -238,7 +238,7 @@ class Carousel(Component):
 class CarouselHeader(Component):
     __slots__ = ("title", "description", "thumbnail")
 
-    def __init__(self, title, description=None, thumbnail=None):
+    def __init__(self, title, description=None, *, thumbnail=None):
         self.title = title
         self.description = description
         self.thumbnail = thumbnail
@@ -267,7 +267,7 @@ class CarouselHeader(Component):
 class Thumbnail(Component):
     __slots__ = ("image_url", "link", "fixed_ratio", "width", "height")
 
-    def __init__(self, image_url, width, height, link=None, fixed_ratio=None):
+    def __init__(self, image_url, width, height, *, link=None, fixed_ratio=None):
         self.image_url = image_url
         self.width = int(width)
         self.height = int(height)
@@ -303,6 +303,7 @@ class Button(Component):
     def __init__(
         self,
         label,
+        *,
         action="message",
         message_text=None,
         web_link_url=None,
@@ -355,7 +356,15 @@ class Link(Component):
     __slots__ = ("mobile", "ios", "android", "pc", "mac", "win", "web")
 
     def __init__(
-        self, web=None, pc=None, mobile=None, win=None, mac=None, android=None, ios=None
+        self,
+        web=None,
+        *,
+        pc=None,
+        mobile=None,
+        win=None,
+        mac=None,
+        android=None,
+        ios=None,
     ):
         # TODO: check if at least one url exists
         # I'll assume that at least `web` url is provided
@@ -399,7 +408,7 @@ class Link(Component):
 class Profile(Component):
     __slots__ = ("nickname", "image_url")
 
-    def __init__(self, nickname, image_url=None):
+    def __init__(self, nickname, *, image_url=None):
         self.nickname = nickname
         self.image_url = image_url
 
